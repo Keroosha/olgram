@@ -2,7 +2,8 @@ import asyncio
 import argparse
 from tortoise import Tortoise
 
-from olgram.router import dp
+from aiogram.types import BotCommand
+from olgram.router import bot, dp
 from olgram.settings import TORTOISE_ORM, OlgramSettings
 from olgram.utils.permissions import AccessMiddleware
 from server.custom import init_redis
@@ -24,9 +25,7 @@ async def init_database():
 
 
 async def init_olgram():
-    from olgram.router import bot, dp
     dp.setup_middleware(AccessMiddleware(OlgramSettings.admin_ids()))
-    from aiogram.types import BotCommand
     await bot.set_my_commands(
         [
             BotCommand("start", _("Запустить бота")),
